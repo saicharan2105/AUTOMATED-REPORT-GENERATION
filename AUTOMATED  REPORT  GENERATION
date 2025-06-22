@@ -5,7 +5,6 @@ from fpdf import FPDF
 # Step 1: Read and analyze the data
 data = pd.read_csv("data.csv")
 
-# Basic Analysis
 dept_counts = data['Department'].value_counts()
 avg_salary = data.groupby('Department')['Salary'].mean()
 
@@ -31,20 +30,13 @@ class PDF(FPDF):
         self.multi_cell(0, 10, text)
         self.ln()
 
-# Create PDF
 pdf = PDF()
 pdf.add_page()
-
-# Report Content
 pdf.chapter_title("1. Department-wise Employee Count")
 pdf.chapter_body(dept_counts.to_string())
-
 pdf.chapter_title("2. Average Salary by Department")
 pdf.chapter_body(avg_salary.to_string())
-
 pdf.chapter_title("3. Raw Data")
 pdf.chapter_body(data.to_string(index=False))
-
-# Save the report
 pdf.output("employee_report.pdf")
 print("PDF report generated successfully!")
